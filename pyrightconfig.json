@@ -1,0 +1,5 @@
+{
+    "include": ["proposal_gui.py"],
+    "typeCheckingMode": "strict",
+    "pythonVersion": "3.13"
+}
