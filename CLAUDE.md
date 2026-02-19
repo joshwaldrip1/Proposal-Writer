@@ -2,30 +2,26 @@
 
 ## Project Overview
 
-A Python desktop application for writing and managing business proposals (sales proposals, consulting proposals, SOWs, etc.).
+A Python desktop GUI application for writing and managing business proposals (sales proposals, consulting proposals, SOWs, etc.). It reads client/scope data from Excel exports and generates Word documents from a `.dotx` template.
 
 ## Tech Stack
 
-- **Language:** Python 3.12+
-- **Application type:** Desktop GUI
+- **Language:** Python 3.13
+- **GUI framework:** tkinter
+- **Packaging:** PyInstaller (builds to single `.exe`)
 - **Platform:** Windows 11
+- **Key libraries:** openpyxl (Excel), python-docx (Word), PIL/Pillow (images), lxml, numpy
 
 ## Project Structure
 
 ```
-proposal_writer/        # Main application package
-  __init__.py
-  main.py              # Application entry point
-  ui/                  # GUI components
-  models/              # Data models
-  services/            # Business logic
-  templates/           # Proposal templates
-  utils/               # Shared utilities
-tests/                 # Test suite
-  conftest.py
-  test_*.py
-requirements.txt       # Dependencies
-CLAUDE.md              # This file
+proposal_gui.py                           # Main application (single-file GUI app)
+proposal_gui.spec                         # PyInstaller build spec
+PROPOSAL FOR PROFESSIONAL SERVICES.dotx   # Word template for proposals
+Civil Engineering Services.xlsx           # Services reference data
+Monday Export.xlsx                        # Monday.com project data export
+Proposal Creator Key.xlsx                 # Key/mapping data for proposal fields
+export_cache/                             # Cached exports (data.xlsx, scope_data.xlsx, etc.)
 ```
 
 ## Development Guidelines
@@ -36,13 +32,17 @@ CLAUDE.md              # This file
 - Use `pathlib.Path` for file paths, not `os.path`
 - Prefer dataclasses or Pydantic models for structured data
 
+### Running the App
+- Direct: `python proposal_gui.py`
+- Built exe: `dist/proposal_gui.exe`
+
+### Building
+- `pyinstaller proposal_gui.spec`
+
 ### Testing
 - Use `pytest` for testing
 - Run tests: `python -m pytest tests/`
 - Run single test: `python -m pytest tests/test_foo.py::test_bar -v`
-
-### Running the App
-- Entry point: `python -m proposal_writer.main`
 
 ### Git Workflow
 - Main branch: `main`
@@ -51,8 +51,6 @@ CLAUDE.md              # This file
 
 ## Conventions
 
-- Keep modules small and focused (< 300 lines)
-- Business logic lives in `services/`, not in UI code
-- UI code should only handle presentation and user interaction
+- Business logic should be separated from UI code
 - All file I/O goes through utility functions, not scattered inline
 - Use logging (`logging` module) instead of print statements
